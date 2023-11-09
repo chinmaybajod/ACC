@@ -1,3 +1,5 @@
+#include <bits/stdc++.h>
+#include "llvm"
 // Reverse Iterate over the function basic block
 // ensures function is not visted again
 std::unordered_map<llvm::Function *, bool> func_visited;
@@ -108,7 +110,7 @@ for(auto &entry : this->func_bb_to_inst_id)
                 BaseInstruction *instruction = inst_id_to_object[instruction_id];
                 llvm::outs() << " [" << instruction_id << "]";
                 // #1 Assignment instruction
-                if(instruction->getInstructionType() == InstructionType::ALLOCA) {
+                if(instruction->getInstructionType() == InstructionType::LOAD) {
                     std::string LHS = instruction->getLHS().first->getName().str();
                     // check if LHS is in X
                     if(X.find(LHS) != X.end()) {
@@ -134,7 +136,7 @@ for(auto &entry : this->func_bb_to_inst_id)
                         GEN_Set.insert(instruction->getReturnOperand()->getName().str());
                     }
                 }
-                // #3
+                // #3 Compare statement
             }
             // X = (X - KILL_Set) U GEN_Set
             for(auto i : KILL_Set) {
